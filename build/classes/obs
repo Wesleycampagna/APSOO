@@ -1,0 +1,45 @@
+Para o cadastro do cidadao:
+
+a nacionalidade vai ser um campo que vira banco de dados? 
+
+ou sera setado padrao?
+
+caso venha a ser um table banco de dados a aplicaçao deve ser capaz de buscar
+estes dados no banco de dados e alimentar uma entidade (por exemplo: cidadao) 
+
+lucro disto e que as nacionalidades serao padrao. 
+
+caso nao deve ser remodelado o banco de dados para que a nacionalidade nao seja
+chave estrangeira. 
+
+--------------------------------------------------------------------------------
+
+format date (usado em salvarCidadao) nao foi atribuido
+
+-------------------------------------------------------------------------------
+
+nacionalidade na busca do cidadao nao foi setado ainda
+
+-------------------------------------------------------------------------------
+
+cidadao esta com inteiro representado pode ser problematico
+
+-------------------------------------------------------------------------------
+
+olhar os getters and setters se algum destes nao for necessario
+
+-------------------------------------------------------------------------------
+
+trabalhar com Date em todas as esferas
+
+--------------------------------------------------------------------------------
+
+Quando for atribuir uma nacionalidade sera necessario capturar do banco de dados 
+o id da nacionalidade para que se possa adicionar todas as nacionallidades de 
+uma pessoa 
+
+importante: naturalidade so existe uma, nacionalidade pode existir mais de uma.
+
+--------------------------------------------------------------------------------
+
+Falta atribuir Naturalidade nas query das tables ainda
