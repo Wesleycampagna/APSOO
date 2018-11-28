@@ -22,6 +22,8 @@ public class Cidadao {
     
     private String status;
     
+    private int id_naturalidade;
+    
     private Naturalidade naturalidade;
     
     private Endereco endereco;
@@ -122,5 +124,14 @@ public class Cidadao {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }   
+
+    public int getId_naturalidade() {
+        return id_naturalidade;
+    }
+
+    public void setId_naturalidade(int id_naturalidade) {
+        this.id_naturalidade = id_naturalidade;
+    }
+    
     
 }

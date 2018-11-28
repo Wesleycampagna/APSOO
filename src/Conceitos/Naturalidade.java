@@ -11,8 +11,6 @@ public class Naturalidade {
     
     private HashMap<Integer, String> nacionalidade;
     
-    private int id;
-    
     public String getCidade() {
         return cidade;
     }
@@ -36,17 +34,5 @@ public class Naturalidade {
     public void setNacionalidade(HashMap<Integer, String> nacionalidade) {
         this.nacionalidade = nacionalidade;
     }
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-    
-    
-    
+ 
 }

@@ -28,8 +28,6 @@ public class insert_cidadao_teste {
         Cidadao cid = new Cidadao();
 
         Naturalidade nat = new Naturalidade();
-
-        nat.setId(2);
         
         HashMap<Integer, String> value = new HashMap<>();
         value.put(1, "brasileira");
@@ -40,9 +38,10 @@ public class insert_cidadao_teste {
 
         end.setId(4);
 
+        cid.setId_naturalidade(3);
         cid.setNaturalidade(nat);
-        cid.setAlcunha("jao3");
-        cid.setCpf("233560373");
+        cid.setAlcunha("jao4");
+        cid.setCpf("233770373");
         cid.setNome("jaozao2");
         cid.setNomeMae("joaquina B2");
         cid.setNomePai("joao pai B2");

@@ -21,6 +21,8 @@ public class Endereco {
     
     private String referencia;
     
+    private int id_cid_estado;
+    
     public int getId() {
         return id;
     }
@@ -92,6 +94,15 @@ public class Endereco {
     public void setReferencia(String referencia) {
         this.referencia = referencia;
     }
+
+    public int getId_cid_estado() {
+        return id_cid_estado;
+    }
+
+    public void setId_cid_estado(int id_cid_estado) {
+        this.id_cid_estado = id_cid_estado;
+    }
+
     
     
 }

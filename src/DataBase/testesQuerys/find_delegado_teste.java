@@ -24,9 +24,9 @@ public class find_delegado_teste {
         //              procurar delegado pelo id
         //========================================================================
         
-        //String matricula = "52342424100";  // nao delegado, apenas policial 
+        String matricula = "52342424100";  // nao delegado, apenas policial 
         
-        String matricula = "45345345300";    // delegado 
+        //String matricula = "45345345300";    // delegado 
         
         Policial cop = cbd.buscarPolicial(matricula);
         

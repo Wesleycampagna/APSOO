@@ -1,5 +1,7 @@
 package Conceitos;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import static lib.Constants.ATIVO;
 
@@ -9,13 +11,17 @@ public class Ocorrencia {
     
     private Date hota;
     
-    private String responsavel;
+    private Policial responsavel;
     
     private String crime;
     
     private String status;
     
     private Endereco endereco;    
+    
+    private Delegacia delegacia;
+    
+    private ArrayList<Policial> equipe;
     
     
     private void atribuirComoAtiva() {
@@ -41,28 +47,56 @@ public class Ocorrencia {
     public void atribuirEvidencias(Evidencia evidencias) {
         
     }
+    
+    private void createDate(){
+        this.data = new Date();
+    }
 
-    public Date getData() {
-        return data;
+    public String getData() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+        createDate();
+	String date = sdf.format(data); 
+	System.out.println(date);   
+        return date;
+    }
+
+    public String getHota() {
+        
+        String date;
+        
+        if (data != null){
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+            date = sdf.format(data); 
+            System.out.println(date);   
+            
+        }
+        else {
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+            date = sdf.format(new Date()); 
+            System.out.println(date); 
+            
+        }
+        
+        return date;
     }
 
     public void setData(Date data) {
         this.data = data;
     }
 
-    public Date getHota() {
-        return hota;
-    }
-
     public void setHota(Date hota) {
         this.hota = hota;
     }
+    
+    
 
-    public String getResponsavel() {
+    public Policial getResponsavel() {
         return responsavel;
     }
 
-    public void setResponsavel(String responsavel) {
+    public void setResponsavel(Policial responsavel) {
         this.responsavel = responsavel;
     }
 
@@ -89,6 +123,22 @@ public class Ocorrencia {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
+
+    public ArrayList<Policial> getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(ArrayList<Policial> equipe) {
+        this.equipe = equipe;
+    }
+
+    public Delegacia getDelegacia() {
+        return delegacia;
+    }
+
+    public void setDelegacia(Delegacia delegacia) {
+        this.delegacia = delegacia;
+    }
     
-    
+        
 }

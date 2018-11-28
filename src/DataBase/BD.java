@@ -51,7 +51,7 @@ public class BD {
         }
     }
     
-    private void setStatement() throws SQLException{
+    public void setStatement() throws SQLException{
          this.statement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);            
     }
     

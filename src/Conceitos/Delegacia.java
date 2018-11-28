@@ -2,10 +2,12 @@ package Conceitos;
 
 
 public class Delegacia {
+    
+    private int id;
 
-	private String sigla;
+    private String sigla;
 
-	private String nome;
+    private String nome;
 
     public String getSigla() {
         return sigla;
@@ -22,7 +24,16 @@ public class Delegacia {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
         
-        
+    
+            
 
 }

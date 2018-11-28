@@ -6,13 +6,10 @@
 package Policia;
 
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -50,20 +47,5 @@ public abstract class ControlPages implements Initializable {
         } catch(IOException ex) {
             System.out.println("Tratar error");
         }
-    }
-    
-    protected void prepareNumberField(TextField field, int maxLength) {
-        field.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                    String newValue) {
-                if (field.getText().length() > maxLength) {
-                    String s = field.getText().substring(0, maxLength);
-                    field.setText(s);
-                } else if (!newValue.matches("\\d*")) {
-                    field.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
     }
 }

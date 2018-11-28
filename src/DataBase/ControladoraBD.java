@@ -1,6 +1,7 @@
 package DataBase;
 
 import Conceitos.Cidadao;
+import Conceitos.Delegacia;
 import Conceitos.Endereco;
 import Conceitos.Evidencia;
 import Conceitos.Naturalidade;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class ControladoraBD {
+    
     private final BD dataBase;
     private final String dataBaseName;
     
@@ -26,7 +28,7 @@ public class ControladoraBD {
     }
     
     
-    // insert - ok - tested -- falta excessoes e naturalidade
+    // insert - ok - tested -- falta excessoes
     public boolean salvarCidadao(Cidadao cid) {
         
         dataBase.start();
@@ -63,7 +65,7 @@ public class ControladoraBD {
                         
                         dataBaseName, cid.getCpf(), cid.getAlcunha(),
                         cid.getTelefone(), cid.getStatus(),
-                        cid.getNaturalidade().getId(),
+                        cid.getId_naturalidade(),
                         cid.getEndereco().getId()
                 ));
                 
@@ -82,6 +84,39 @@ public class ControladoraBD {
     }
     
     
+    // update - ok - tested
+    public boolean salvarNovaDelegacia(int idOcorrencia, int idNewDelegacia){
+        
+        boolean isSave = false;
+        
+        dataBase.start();
+            
+            try {
+                
+                dataBase.getStatement().executeUpdate(String.format(
+                        
+                        "UPDATE %s.ocorrencia " +
+                        "SET ocorrencia.delegacia = %d " +
+                        "WHERE ocorrencia.id_ocorrencia = %d;",
+                        
+                        dataBaseName, idNewDelegacia, idOcorrencia
+                        
+                ));
+                
+                isSave = true;
+                
+            } catch (SQLException e) {
+                System.err.println("Error while saving data (nova delegacia).. ");
+                dataBase.close();
+                return isSave;
+            }
+       
+        dataBase.close();
+        
+        return isSave;
+    }
+    
+    
     // insert - not ok - no tested
     public boolean salvarPolicial(Policial cop){
         return false;
@@ -91,7 +126,7 @@ public class ControladoraBD {
     // Insert - ok - tested - falta policial (re-tested)
     private boolean salvarPessoa (Object pessoa) throws SQLException{
         
-        String date = "1994-03-08";   // format date (depois)
+        // ver o Date -> o padrao que aceita Banco e "YYYY-MM-DD"
         
         if (pessoa instanceof Cidadao){
             
@@ -102,8 +137,8 @@ public class ControladoraBD {
                             + "(%s, '%s', %s, '%s', '%s', '%s');",
                     
                     dataBaseName, cid.getCpf(), cid.getNome(),
-                    String.valueOf(cid.getRg()), date, cid.getNomeMae(),
-                    cid.getNomePai()
+                    String.valueOf(cid.getRg()), cid.getDataNascimento(), 
+                    cid.getNomeMae(), cid.getNomePai()
             ));
         }
         
@@ -126,7 +161,7 @@ public class ControladoraBD {
     }
     
     
-    // insert - ok - tested falta (policial)
+    // insert - ok - tested (falta policial)
     private boolean inserirNacionalidade(Object pessoa) throws SQLException{
         
         
@@ -170,56 +205,201 @@ public class ControladoraBD {
     }
     
     
-    // select - not ok - no tested
+    // select - ok - tested (falta endereco)
     public Ocorrencia buscarOcorrencia(int nroOcorrencia) {
-        Ocorrencia oc = new Ocorrencia();
+        
+        Ocorrencia oc = null;
+        String idDelegado = null;
+        int idEndereco = -1;
+        
+        dataBase.start();
         
         try{
-            
-            dataBase.start();
-            
+                        
             ResultSet resultSet = dataBase.getStatement().executeQuery(String.format(
                     
-                    "SELECT * FROM %s.ocorrencia "
-                            + "WHERE id_ocorrencia = %s ;",
+                    "SELECT ocorrencia.data, ocorrencia.hora, ocorrencia.infracao, " +
+                            "ocorrencia.status , ocorrencia.del_responsavel, " +
+                            "ocorrencia.id_endereco, ocorrencia.delegacia, delegacia.sigla, " +
+                            "delegacia.nome FROM %s.ocorrencia " +
+                            "JOIN %s.delegacia ON (delegacia.id_delegacia = ocorrencia.delegacia) " +
+                            "WHERE ocorrencia.id_ocorrencia = %d;",
                     
-                    dataBaseName, nroOcorrencia
+                    dataBaseName, dataBaseName, nroOcorrencia
             ));
             
             if (resultSet != null)
+                
                 while (resultSet.next()){
                     
-                    oc.setData(resultSet.getDate(2));
-                    oc.setHota(resultSet.getDate(3));
-                    oc.setResponsavel(resultSet.getString(4));
-                    oc.setCrime(resultSet.getString(5));
-                    oc.setStatus(resultSet.getString(6));
+                    oc = new Ocorrencia();
                     
+                    oc.setData(resultSet.getDate(1));
+                    oc.setHota(resultSet.getTime(2));
+                    oc.setCrime(resultSet.getString(3));
+                    oc.setStatus(resultSet.getString(4));
+                    
+                    idDelegado = resultSet.getString(5);
+                    idEndereco = resultSet.getInt(6);
+                    
+                    Delegacia delegacia = new Delegacia();
+                    
+                    delegacia.setId(resultSet.getInt(7));
+                    delegacia.setSigla(resultSet.getString(8));
+                    delegacia.setNome(resultSet.getString(9));
+                    
+                    if (delegacia.getId() > 0){
+                        oc.setDelegacia(delegacia);
+                    }
                 }
-            
-            dataBase.close();
             
         }catch(SQLException e){
             System.err.println("erro durante busca de ocorrencia");
         }
         
+        // set endereco
+        
+        // set delegado
+        try {
+            
+            oc.setResponsavel(buscarUmPolicial("52342424100"));
+            
+        } catch (SQLException e) {
+            // faça algo
+            System.err.println("Erro SELECT Delegado!");
+        }
+        
+        // set equipe
+        try {
+            
+            oc.setEquipe(buscarEquipe(nroOcorrencia));
+            
+        } catch (SQLException e) {
+            // faça algo
+            System.err.println("erro SELECT Equipe!");
+        }
+        
+        dataBase.close();
+        
         return oc;
     }
     
     
-    // select - not ok - no tested
-    public Ocorrencia salvarOcorrencia(Ocorrencia oc){
-        return null;
+    // insert - ok - no tested
+    public boolean salvarOcorrencia(Ocorrencia oc){
+        
+        boolean isSave = false;
+        
+        dataBase.start();
+        
+        System.out.println(String.format(
+                    "insert into %s.ocorrencia " +
+                    "(data, hora, del_responsavel, infracao, status, id_endereco, delegacia) values " +
+                    "('%s', '%s', '%s', '%s', '%s', %d, %d);",
+
+                    dataBaseName, oc.getData(), oc.getHota(), oc.getResponsavel().getNumeroMatricula(), oc.getCrime(),
+                    oc.getStatus(), oc.getEndereco().getId(), oc.getDelegacia().getId()
+            ));
+            
+        try {
+
+            dataBase.getStatement().executeUpdate(String.format(
+                    "insert into %s.ocorrencia " +
+                    "(data, hora, del_responsavel, infracao, status, id_endereco, delegacia) values " +
+                    "('%s', '%s', '%s', '%s', '%s', %d, %d);",
+
+                    dataBaseName, oc.getData(), oc.getHota(), oc.getResponsavel().getNumeroMatricula(), 
+                    oc.getCrime(), oc.getStatus(), oc.getEndereco().getId(), oc.getDelegacia().getId()
+            ));
+
+            isSave = true;
+
+        } catch (SQLException e) {
+            System.err.println("Error while saving data (ocorrencia).. ");
+            dataBase.close();
+            return isSave;
+        }
+            
+        //associar equipe        
+        ArrayList<Policial> cops = oc.getEquipe();
+
+        // problema quanto ao cadastro da equipe - na tenho id da Ocorrencia para fazer o cadastro
+        if (cops != null)
+            for (Policial cop : cops) 
+                System.out.println("salvar cops");
+       
+        dataBase.close();
+        
+        return isSave;
     }
     
     
-    // select - not ok - no tested
+    // insert - ok - no tested
+    public boolean associarEquipe(Policial policial, int idOcorrencia){
+        
+        dataBase.start();
+        
+        boolean answer = associarUmaEquipe(policial, idOcorrencia);
+        
+        dataBase.close();
+        
+        return answer;
+    }
+    
+    
+    // insert - ok - no tested
+    public boolean associarEquipe(String idPolicial, int idOcorrencia){
+        
+        dataBase.start();
+        
+        boolean answer =  associarUmaEquipe(idPolicial, idOcorrencia);
+        
+        dataBase.close();
+        
+        return answer;
+    }
+    
+    
+    // insert - ok - no tested
+    private boolean associarUmaEquipe(Object policial, int idOcorrencia){
+        
+        boolean isSave = false;
+        
+        String idPolicia;
+        Policial cop = null;
+        
+        if (policial instanceof Policial)
+            cop = (Policial) policial;
+        
+        idPolicia = (cop != null) ? cop.getNumeroMatricula() : (String) policial;
+             
+        try {   
+
+            dataBase.getStatement().executeUpdate(String.format(
+                    "insert into %s.equipe values " +
+                    "(%s, %d);",
+
+                    dataBaseName, idPolicia, idOcorrencia
+            ));
+
+            isSave = true;
+
+        } catch (SQLException e) {
+            System.err.println("Error while saving data (ocorrencia).. ");
+            return isSave;
+        }
+ 
+        return isSave;
+    }
+    
+    
+    // select - ok - no tested
     public boolean verificarDadoBD(String CPF) {
         return false;
     }
     
     
-    // select - ok - tested (falta setar Naturalidade)
+    // select - ok - tested
     public Cidadao buscarCidadao(String CPF) {
         Cidadao cid = null;
         Endereco end = null;
@@ -236,10 +416,10 @@ public class ControladoraBD {
             resultSet = dataBase.getStatement().executeQuery(String.format(
                     
                     "SELECT Pessoa.nome, Pessoa.cpf, Pessoa.rg, Pessoa.data_nascimento, " +
-                    "Pessoa.nome_mae, Pessoa.nome_pai, cidadao.alcunha, cidadao.telefone, " +
-                    "cidadao.`status` " +
-                    "FROM %s.cidadao, %s.Pessoa " +
-                    "WHERE Pessoa.cpf = %s AND cidadao.cpf = Pessoa.cpf;",
+                            "Pessoa.nome_mae, Pessoa.nome_pai, cidadao.alcunha, cidadao.telefone, " +
+                            "cidadao.`status`, cidadao.naturalidade " +
+                            "FROM %s.cidadao, %s.Pessoa " +
+                            "WHERE Pessoa.cpf = %s AND cidadao.cpf = Pessoa.cpf;",
                     
                     dataBaseName, dataBaseName, CPF
             ));
@@ -248,7 +428,7 @@ public class ControladoraBD {
                 while (resultSet.next()){
                     
                     cid = new Cidadao();
-                                        
+                    
                     cid.setNome(resultSet.getString(1));
                     cid.setCpf(resultSet.getString(2));
                     cid.setRg(resultSet.getString(3));
@@ -258,14 +438,18 @@ public class ControladoraBD {
                     cid.setAlcunha(resultSet.getString(7));
                     cid.setTelefone(resultSet.getString(8));
                     cid.setStatus(resultSet.getString(9));
+                    cid.setId_naturalidade(resultSet.getInt(10));
                 }
             
             if (cid != null){
                 
                 nat = new Naturalidade();
                 nat.setNacionalidade(buscarNacionalidades(CPF));
+                
+                buscarNaturalidade(nat, cid.getId_naturalidade());
+                
                 cid.setNaturalidade(nat);
-            
+                
             }
             
         }catch(SQLException e){
@@ -282,57 +466,129 @@ public class ControladoraBD {
     
     
     // select - ok - tested
-    public Policial buscarPolicial(String numeroMatricula) {
-        boolean isSave = false;
-        Policial copDelegado = null;
+    public Policial buscarPolicial(String numeroMatricula){
+        
+        Policial cop = null;
         
         dataBase.start();
         
-        try{
+        try {
             
-            ResultSet resultSet;
+            cop = buscarUmPolicial(numeroMatricula);
             
-            // out tables POLICIAL + PESSOA (NOT NACIONALIDADE)
-            resultSet = dataBase.getStatement().executeQuery(String.format(
-                    
-                    "SELECT policial.numero_matricula, Pessoa.nome, Pessoa.rg, Pessoa.cpf, Pessoa.data_nascimento, " +
-                            "policial.telefone, Pessoa.nome_mae, Pessoa.nome_pai " +
-                            "FROM %s.policial " +
-                            "JOIN %s.Pessoa ON (Pessoa.cpf = policial.cpf) " +
-                            "WHERE policial.numero_matricula = %s;",
-                    
-                    dataBaseName, dataBaseName, numeroMatricula
-            ));
-            
-            if (resultSet != null)
-                
-                while (resultSet.next()){
-                    
-                    copDelegado = new Policial();
-                    
-                    copDelegado.setNumeroMatricula(resultSet.getString(1));
-                    copDelegado.setNome(resultSet.getString(2));
-                    copDelegado.setRg(Integer.valueOf(resultSet.getString(3)));
-                    copDelegado.setCpf(resultSet.getString(4));
-                    copDelegado.setDataNascimento(resultSet.getDate(5));
-                    copDelegado.setTelefone(resultSet.getString(6));
-                    copDelegado.setNomeMae(resultSet.getString(7));
-                    copDelegado.setNomePai(resultSet.getString(8));
-                    
-                    isSave = true;
-                }
-            
-        }catch(SQLException e){
-            System.err.println("erro durante busca de policial");
+        } catch (SQLException e) {
+            dataBase.close();
         }
+        dataBase.close();
+        
+        return cop;
+    }
+    
+    
+    // select - ok - tested
+    private Policial buscarUmPolicial(String numeroMatricula) throws SQLException{
+        
+        boolean isSave = false;
+        
+        Policial cop = null;
+        
+        ResultSet resultSet;        
+        
+        // out tables POLICIAL + PESSOA (NOT NACIONALIDADE)        
+        resultSet = dataBase.getStatement().executeQuery(String.format(
+                
+                "SELECT policial.numero_matricula, Pessoa.nome, Pessoa.rg, Pessoa.cpf, Pessoa.data_nascimento, " +
+                        "policial.telefone, Pessoa.nome_mae, Pessoa.nome_pai " +
+                        "FROM %s.policial " +
+                        "JOIN %s.Pessoa ON (Pessoa.cpf = policial.cpf) " +
+                        "WHERE policial.numero_matricula = %s;",
+                
+                dataBaseName, dataBaseName, numeroMatricula
+        ));
+        
+        if (resultSet != null)
+            
+            while (resultSet.next()){
+                
+                cop = new Policial();
+                
+                cop.setNumeroMatricula(resultSet.getString(1));
+                cop.setNome(resultSet.getString(2));
+                cop.setRg(Integer.valueOf(resultSet.getString(3)));
+                cop.setCpf(resultSet.getString(4));
+                cop.setDataNascimento(resultSet.getDate(5));
+                cop.setTelefone(resultSet.getString(6));
+                cop.setNomeMae(resultSet.getString(7));
+                cop.setNomePai(resultSet.getString(8));
+                
+                isSave = true;
+            }
         
         // out table NACIONALIDADE
         if(isSave)
-            copDelegado.setNacionalidade(buscarNacionalidades(copDelegado.getCpf()));
+            cop.setNacionalidade(buscarNacionalidades(cop.getCpf()));        
+       
+        return cop;
+    }
+    
+    
+    // select - ok - tested
+    public ArrayList<Policial> buscarEquipe(int idOcorrencia) throws SQLException{
         
-        dataBase.close();
+        ArrayList<Policial> equipe = null;
         
-        return copDelegado;
+        ArrayList <String> matriculas = null;
+        
+        try {
+            
+            matriculas = buscarMatriculas(idOcorrencia);
+            
+        } catch (SQLException e) {
+            //faça algo
+            System.err.println("ERRO SELECT matriculas!");
+        }
+        
+        if (matriculas != null)
+            
+            equipe = new ArrayList<>();
+        
+        for (String matricula : matriculas) {
+            
+            Policial cop = buscarUmPolicial(matricula);
+            
+            if (cop != null)
+                
+                equipe.add(buscarUmPolicial(matricula));
+        }
+        
+        return equipe;
+    }
+    
+    
+    // select - ok - tested
+    private ArrayList<String> buscarMatriculas(int idOcorrencia) throws SQLException{
+        ArrayList<String> matriculas = null;
+        
+        ResultSet resultSet;
+        
+        resultSet = dataBase.getStatement().executeQuery(String.format(
+                
+                "SELECT nro_matricula FROM %s.equipe " +
+                        "WHERE equipe.id_ocorrencia = %d;",
+                
+                dataBaseName, idOcorrencia
+        ));
+        
+        if (resultSet != null){
+            
+            matriculas = new ArrayList<>();
+            
+            while (resultSet.next())
+                
+                matriculas.add(resultSet.getString(1));
+        }
+        
+        return matriculas;
     }
     
     
@@ -427,6 +683,59 @@ public class ControladoraBD {
     }
     
     
+    // select - ok - tested (falta endereco)
+    private void buscarNaturalidade (Object table, int id) throws SQLException{
+        
+        ResultSet resultSet;
+        
+        if (table instanceof Naturalidade){
+            Naturalidade nat = (Naturalidade) table;
+            
+            resultSet = dataBase.getStatement().executeQuery(String.format(
+                    
+                    "SELECT cidade_estado.cidade, cidade_estado.estado FROM %s.naturalidade " +
+                            "JOIN %s.cidade_estado ON (naturalidade.cid_estado = cidade_estado.id_cidade_estado) " +
+                            "WHERE naturalidade.id_natural = %d;",
+                    
+                    dataBaseName, dataBaseName, id
+            ));
+            
+            if (resultSet != null){
+                
+                while (resultSet.next()){
+                    
+                    nat.setCidade(resultSet.getString(1));
+                    nat.setEstado(resultSet.getString(2));
+                    
+                }
+            }
+        }
+        if (table instanceof Endereco){
+            Endereco end = (Endereco) table;
+        }
+    }
+    
+    
+    // select - ok - tested
+    public void buscarEndereco (Endereco endereco, int id) throws SQLException{
+        
+        ResultSet resultSet;
+        
+        resultSet = dataBase.getStatement().executeQuery(String.format(
+                "query"
+        ));
+        
+        if (resultSet != null){
+            
+            while (resultSet.next()){
+                
+                
+                
+            }
+        }
+    }
+    
+    
     // select - ok - tested
     public ArrayList<Evidencia> buscarEvidencias() {
         
@@ -478,19 +787,20 @@ public class ControladoraBD {
             dataBase.start();
             ResultSet resultSet;
             
-            // in table evidencia            
+            // in table evidencia
             resultSet = dataBase.getStatement().executeQuery(String.format(
                     
                     "SELECT * FROM %s.evidencia;", dataBaseName
             ));
             
-            if (resultSet != null)               
+            if (resultSet != null)
                 
                 while (resultSet.next()){
+                    
                     evidence = new Evidencia();
                     
                     evidence.setIdEvidencia(resultSet.getInt(1));
-                    evidence.setDescc(resultSet.getString(2));                    
+                    evidence.setDescc(resultSet.getString(2));
                 }
             
             
