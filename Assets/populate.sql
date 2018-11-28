@@ -1,33 +1,33 @@
 
 -- 1- insert evidência 
 
-insert into policia_db.evidencia (descc) values ('pistol kolibri'); 
-insert into policia_db.evidencia (descc) values ('pistol russa');
-insert into policia_db.evidencia (descc) values ('pistol skorpion');
-insert into policia_db.evidencia (descc) values ('pistol sig');
-insert into policia_db.evidencia (descc) values ('glock');
+INSERT INTO policia_db.evidencia (descc) VALUES ('pistol kolibri'); 
+INSERT INTO policia_db.evidencia (descc) VALUES ('pistol russa');
+INSERT INTO policia_db.evidencia (descc) VALUES ('pistol skorpion');
+INSERT INTO policia_db.evidencia (descc) VALUES ('pistol sig');
+INSERT INTO policia_db.evidencia (descc) VALUES ('glock');
 
-insert into policia_db.evidencia (descc) values ('cel Motorola');
-insert into policia_db.evidencia (descc) values ('samsumg');
-insert into policia_db.evidencia (descc) values ('cel Quantum - Fulanilda');
-insert into policia_db.evidencia (descc) values ('cel Quantum - Gestavo');
+INSERT INTO policia_db.evidencia (descc) VALUES ('cel Motorola');
+INSERT INTO policia_db.evidencia (descc) VALUES ('samsumg');
+INSERT INTO policia_db.evidencia (descc) VALUES ('cel Quantum - Fulanilda');
+INSERT INTO policia_db.evidencia (descc) VALUES ('cel Quantum - Gestavo');
 
-insert into policia_db.evidencia (descc) values ('sub 1');
-insert into policia_db.evidencia (descc) values ('sub 2');
+INSERT INTO policia_db.evidencia (descc) VALUES ('sub 1');
+INSERT INTO policia_db.evidencia (descc) VALUES ('sub 2');
 
-insert into policia_db.evidencia (descc) values ('nota fiscal'); 
-insert into policia_db.evidencia (descc) values ('Olha a tesoura');
-insert into policia_db.evidencia (descc) values ('espada Samurai');
+INSERT INTO policia_db.evidencia (descc) VALUES ('nota fiscal'); 
+INSERT INTO policia_db.evidencia (descc) VALUES ('Olha a tesoura');
+INSERT INTO policia_db.evidencia (descc) VALUES ('espada Samurai');
 
-insert into policia_db.evidencia (descc) values ('toyota imposto não pago');
-insert into policia_db.evidencia (descc) values ('honda motorista sem carta');
-insert into policia_db.evidencia (descc) values ('ford roubado');
-insert into policia_db.evidencia (descc) values ('hyundai apreendida');
-insert into policia_db.evidencia (descc) values ('fiat pra fuga');
+INSERT INTO policia_db.evidencia (descc) VALUES ('toyota imposto não pago');
+INSERT INTO policia_db.evidencia (descc) VALUES ('honda motorista sem carta');
+INSERT INTO policia_db.evidencia (descc) VALUES ('ford roubado');
+INSERT INTO policia_db.evidencia (descc) VALUES ('hyundai apreendida');
+INSERT INTO policia_db.evidencia (descc) VALUES ('fiat pra fuga');
 
 -- 2- insert evidencia - arma (5)
 
-insert into policia_db.arma values
+INSERT INTO policia_db.arma VALUES
 (1, 1239193, 2.7, 	'kolibri', 						'2mm kolibri'),
 (2, 1264590, 9.0 , 	'Izhevsk Mechanical Plant', 	'Makarov pistol'),
 (3, 9138838, 0.32 , 'Ceska Zbrojovka Uhersky Brod', 'Skorpion vz. 61'),
@@ -36,7 +36,7 @@ insert into policia_db.arma values
 
 -- 3- insert evidência - celular (4)
 
-insert into policia_db.celular values 
+INSERT INTO policia_db.celular VALUES 
 (6, 19291391239, 5567999998888, 'Motorola', 	'Moto Z 3 Play XT1929', 	'19231931932', 'Adeclir Norovis'),
 (7, 12320100203, 5567999998765, 'Samsumg', 		'Galaxy J6 SM-J600', 		'10001931932', 'Fulanildo Merinclevis'),
 (8, 12320100203, 5511987648765, 'Quantum', 		'YOU E', 					'10001973007', 'Fulanilda daclivis'),
@@ -44,28 +44,28 @@ insert into policia_db.celular values
 
 -- 4- insert evidencia - substancia -> dimensão (3)
 
-insert into policia_db.dimensao 
-(largura, 	comprimento, 	altura) values 
+INSERT INTO policia_db.dimensao 
+(largura, 	comprimento, 	altura) VALUES 
 (1.23, 		1.25, 			0.5),
 (0.23, 		0.25, 			0.5),
 (0.03, 		0.05, 			0.05);
 
 -- 5- insert evidencia - substancia (2)
 
-insert into policia_db.substancia values 
+INSERT INTO policia_db.substancia VALUES 
 (10, 1, 'svl dadlq eslsl', 	200, 	'alsdal dlalala', 	3, 	1),
 (11, 2, 'pqwiazc aosid', 	1000, 	'alasdlalalalalal', 10, 2);
 
 -- 6- insert evidencia - objeto (3)
 
-insert into policia_db.objeto values 
+INSERT INTO policia_db.objeto VALUES 
 (12, 1, 'notas fiscais', 	'Foi realizado fraudação de notas fiscais pra não tributação de impostos'),
 (13, 2, 'tesoura', 			'Ameaçou a vitima com este objeto pontiagudo'),
 (14, 3, 'espada samurai', 	'Preso este objeto - simbolo da mafia japonesa');
 
 -- 7- insert evidencia - veiculo (5)
 
-insert into policia_db.veiculo values
+INSERT INTO policia_db.veiculo VALUES
 (15, '193592040234-420340204', 'SSS-3103', 1994, 1993, 'Toyota', 	'Corolla', 	'preto'		),
 (16, '191023103020-111140204', 'HHH-4103', 2007, 2007, 'Honda', 	'Civic', 	'branco'	),
 (17, '110101010101-222240204', 'LLL-5103', 2004, 2003, 'Ford', 		'EcoSport', 'amarelo'	),
@@ -74,7 +74,7 @@ insert into policia_db.veiculo values
 
 -- 8- insert cidade_estado (10)
 
-insert into policia_db.cidade_estado (cidade, estado) values 
+INSERT INTO policia_db.cidade_estado (cidade, estado) VALUES 
 ('Campo Grande', 		'MS'),
 ('Terenos', 			'MS'),
 ('São Paulo', 			'SP'),
@@ -88,49 +88,49 @@ insert into policia_db.cidade_estado (cidade, estado) values
 
 -- 9- insert naturalidade (10)
 
-insert into policia_db.naturalidade (cid_estado) values
+INSERT INTO policia_db.naturalidade (cid_estado) VALUES
 (1), (2), (1), (3), (3), (5), (10), (1), (2), (1);
 
 -- 10- insert nacionalidade (10)
 
-insert into policia_db.nacionalidade (nacionalidade) values 
+INSERT INTO policia_db.nacionalidade (nacionalidade) VALUES 
 ('brasileira'), ('norte americana'), ('italiana'), ('alemã'), ('hungaro'),
 ('russa'), ('portuguesa'), ('argentina'), ('chilena'), ('moçambiquense');
 
 -- 11- insert delegacia (3)
 
-insert into policia_db.delegacia (sigla, nome) values
+INSERT INTO policia_db.delegacia (sigla, nome) VALUES
 ('DERF', 'Delegacia Especializada de Roubos e Furtos'),
 ('DEFURV', 'Policia Civil'),
 ('DECO', 'Del Espec de Combate ao Crime Organizado');
 
 -- 12- insert endereco (20)
 
-insert into policia_db.endereco (logradouro, numero, bairro, complemento, cep, referencia, cid_est) values 
-('jão marques', 				400, 	'Parati', 			null, 43254570, 'Rua da divisão', 1),
-('luzia jão', 					4000, 	'Colibri', 			null, 11254570, null, 1),
-('amazonas', 					4330, 	'Moreninhas I', 	null, 334254570, 'saida SP', 1),
-('acre terra dos dinossauro',	40, 	'Moreninhas II', 	null, 55254570, 'saida SP', 1),
-('acre não é bullying', 		4, 		'COHAB', 			null, 66254570, null, 1),
-('Presidente bolsonabo', 		4231, 	'Vila Carlota', 	'é o cara que imita!', 77254570, null, 1),
-('cachaça raiz', 				233, 	'Jardim Paulista', 	'Jardim Paulista', 88254570, null, 1),
-('dom quixote', 				2577, 	'Monte Libano', 	'Monte Libano', 99254570, null, 1),
-('coloca nome nessa rua', 		125, 	'Nova Era', 		null, 400254570, 'portão azul', 1),
-('heavy metal é op', 			123, 	'Centro', 			null, 41154570, null, 1),
-('no céu tem pão?', 			3945, 	'Iracy Coelho', 	null, 42254570, null, 1),
-('senador <insira o nome>', 	943, 	'Pioneiros', 		null, 43354570, null, 1),
-('andrade ou hadaad', 			5, 		'Vila Sobrinho', 	null, 44454570, null, 1),
-('pameiras não tem mundial', 	579, 	'Vila Nhá Nhá', 'Escreve assim?', 45554570, null, 1),
-('corintienses é mas inteligente q os oto', 203, 'São Conrado', null, 46654570, null, 1),
-('tesla conhece?', 				2934, 	'Jardim Autonomista', null, 47754570, null, 1),
-('Rua dos doidos', 				23, 	'Nova Lima', 		null, 48854570, null, 1),
-('Praça dos Enfartados', 		444, 	'Jardim Anache', 	'existe mesmo essa rua', 49954570, null, 1),
-('Rua do Corno', 				55, 	'Caicara',  		'existe mesmo essa rua', 44004570, null, 1),
-('pelégolas', 					1111, 	'Guanandi', 		null, 44114570, null, 1);
+INSERT INTO policia_db.endereco (logradouro, numero, bairro, complemento, cep, referencia, cid_est) VALUES 
+('jão marques', 				400, 	'Parati', 			NULL, 43254570, 'Rua da divisão', 1),
+('luzia jão', 					4000, 	'Colibri', 			NULL, 11254570, NULL, 1),
+('amazonas', 					4330, 	'Moreninhas I', 	NULL, 334254570, 'saida SP', 1),
+('acre terra dos dinossauro',	40, 	'Moreninhas II', 	NULL, 55254570, 'saida SP', 1),
+('acre não é bullying', 		4, 		'COHAB', 			NULL, 66254570, NULL, 1),
+('Presidente bolsonabo', 		4231, 	'Vila Carlota', 	'é o cara que imita!', 77254570, NULL, 1),
+('cachaça raiz', 				233, 	'Jardim Paulista', 	'Jardim Paulista', 88254570, NULL, 1),
+('dom quixote', 				2577, 	'Monte Libano', 	'Monte Libano', 99254570, NULL, 1),
+('coloca nome nessa rua', 		125, 	'Nova Era', 		NULL, 400254570, 'portão azul', 1),
+('heavy metal é op', 			123, 	'Centro', 			NULL, 41154570, NULL, 1),
+('no céu tem pão?', 			3945, 	'Iracy Coelho', 	NULL, 42254570, NULL, 1),
+('senador <insira o nome>', 	943, 	'Pioneiros', 		NULL, 43354570, NULL, 1),
+('andrade ou hadaad', 			5, 		'Vila Sobrinho', 	NULL, 44454570, NULL, 1),
+('pameiras não tem mundial', 	579, 	'Vila Nhá Nhá', 'Escreve assim?', 45554570, NULL, 1),
+('corintienses é mas inteligente q os oto', 203, 'São Conrado', NULL, 46654570, NULL, 1),
+('tesla conhece?', 				2934, 	'Jardim Autonomista', NULL, 47754570, NULL, 1),
+('Rua dos doidos', 				23, 	'Nova Lima', 		NULL, 48854570, NULL, 1),
+('Praça dos Enfartados', 		444, 	'Jardim Anache', 	'existe mesmo essa rua', 49954570, NULL, 1),
+('Rua do Corno', 				55, 	'Caicara',  		'existe mesmo essa rua', 44004570, NULL, 1),
+('pelégolas', 					1111, 	'Guanandi', 		NULL, 44114570, NULL, 1);
 
 -- 13- insert pessoa (16)
 
-insert into policia_db.Pessoa values
+INSERT INTO policia_db.Pessoa VALUES
 (12345678901 , 'Teclasio ildo', 19948884949, '1994-06-05', 'ajundaiuna braria', 'jão perifastoc'),
 (09876543210 , 'belasio rodribel', 312319239123, '1990-04-03', 'be rodribel', 'lasio rodribel'),
 (19394923492 , 'castebrino brosguesg', 23123123 , '1883-02-09', 'caste brosguesg', 'brino brosguesg'),
@@ -150,16 +150,16 @@ insert into policia_db.Pessoa values
 
 -- 14- insert policial (5)
 
-insert into policia_db.policial values
+INSERT INTO policia_db.policial VALUES
 (29342934929 , 52342424100 , '5567999995555'),
 (10231023020 , 45345345300 , '5567999995555'),
 (59595995959 , 45353434500 , '5567999995555'),
-(20202020203 , 77777843200 , '5567999995555'),
+(20202020203 , 77777843200 , '5567999995555	'),
 (40040404040 , 17345385000 , '5567999995555');
 
 -- 15- insert cidadão (10)
 
-insert into policia_db.cidadao values
+INSERT INTO policia_db.cidadao VALUES
 (49324102302 , 'equarro', '5567999995555' , 'desaparecido', 4, 1),
 (03403403040 , 'beibrani',  '5567999995555', 'ativo', 1, 2),
 (23023023020 , 'eklauvs', '5567999995555' , 'ativo', 3, 3),
@@ -174,11 +174,11 @@ insert into policia_db.cidadao values
 
 -- 16- insert delegado
 
-insert into policia_db.delegado values
+INSERT INTO policia_db.delegado VALUES
 (45345345300);
 
 -- 21 insert nacionalidade_pessoa
-insert into policia_db.nac_pessoa (cpf, id_nacionalidade) values
+INSERT INTO policia_db.nac_pessoa (cpf, id_nacionalidade) VALUES
 (10231023020, 1),
 (10231023020, 5),
 (10231023020, 2),
@@ -189,5 +189,11 @@ insert into policia_db.nac_pessoa (cpf, id_nacionalidade) values
 -- 18- insert pessoa_envolvida (não pode) -> aplicação deve ser capaz
 
 -- 19- insert ocorrencia (não pode) -> aplicação deve ser capaz
+INSERT INTO policia_db.ocorrencia 
+(data, hora, del_responsavel, infracao, status, id_endereco, delegacia) VALUES 
+('2018-11-23', '02:02:02', 45345345300, 'roubo', 'ativo', 3, 1);
 
 -- 20- insert equipe (não pode) -> aplicação deve ser capaz
+INSERT INTO policia_db.equipe VALUES 
+(52342424100, 1),
+(77777843200, 1);

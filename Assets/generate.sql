@@ -263,7 +263,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `policia_db`.`equipe` (
   `nro_matricula` VARCHAR(20) NOT NULL,
   `id_ocorrencia` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`nro_matricula`, `id_ocorrencia`),
+  PRIMARY KEY (`nro_matricula`),
   INDEX `fk_oc_idx` (`id_ocorrencia` ASC),
   CONSTRAINT `fk_oc_eq`
     FOREIGN KEY (`id_ocorrencia`)
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `policia_db`.`equipe` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_policial_eq`
     FOREIGN KEY (`nro_matricula`)
-    REFERENCES `policia_db`.`policial` (`cpf`)
+    REFERENCES `policia_db`.`policial` (`numero_matricula`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
