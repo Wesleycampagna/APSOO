@@ -24,13 +24,15 @@ public class select_cidadao_teste {
             //              selec cidadao
             //========================================================================
 
-            Cidadao cid = cbd.buscarCidadao("233560373");
+            Cidadao cid = cbd.buscarCidadao("12345678901");
             
             if (cid != null){
                 System.out.println("\n\n\t **** PRINT ****");
                 System.out.println("cpf: " + cid.getCpf());
                 System.out.println("nome: " + cid.getNome());
                 System.out.println("alcunha: " + cid.getAlcunha());
+                
+                System.out.println("dataNasc: " + cid.getDataNascimento());
                 
                 if (cid.getNaturalidade() != null){
                     

@@ -35,7 +35,9 @@ public class ControladoraBD {
         
         boolean isSave = false;
         try {
+            
             isSave = salvarPessoa(cid);
+            
         } catch (SQLException e) {
             // excessao salvar pessoa
             System.err.println("Erro ao salvar PESSOA");
@@ -137,7 +139,7 @@ public class ControladoraBD {
                             + "(%s, '%s', %s, '%s', '%s', '%s');",
                     
                     dataBaseName, cid.getCpf(), cid.getNome(),
-                    String.valueOf(cid.getRg()), cid.getDataNascimento(), 
+                    cid.getRg(), cid.getDataNascimento(), 
                     cid.getNomeMae(), cid.getNomePai()
             ));
         }
@@ -221,7 +223,7 @@ public class ControladoraBD {
                     "SELECT ocorrencia.data, ocorrencia.hora, ocorrencia.infracao, " +
                             "ocorrencia.status , ocorrencia.del_responsavel, " +
                             "ocorrencia.id_endereco, ocorrencia.delegacia, delegacia.sigla, " +
-                            "delegacia.nome FROM %s.ocorrencia " +
+                            "delegacia.nome, ocorrencia.id_ocorrencia FROM %s.ocorrencia " +
                             "JOIN %s.delegacia ON (delegacia.id_delegacia = ocorrencia.delegacia) " +
                             "WHERE ocorrencia.id_ocorrencia = %d;",
                     
@@ -235,7 +237,7 @@ public class ControladoraBD {
                     oc = new Ocorrencia();
                     
                     oc.setData(resultSet.getDate(1));
-                    oc.setHota(resultSet.getTime(2));
+                    oc.setHora(resultSet.getTime(2));
                     oc.setCrime(resultSet.getString(3));
                     oc.setStatus(resultSet.getString(4));
                     
@@ -247,6 +249,7 @@ public class ControladoraBD {
                     delegacia.setId(resultSet.getInt(7));
                     delegacia.setSigla(resultSet.getString(8));
                     delegacia.setNome(resultSet.getString(9));
+                    oc.setId(resultSet.getInt(10));
                     
                     if (delegacia.getId() > 0){
                         oc.setDelegacia(delegacia);
@@ -262,7 +265,7 @@ public class ControladoraBD {
         // set delegado
         try {
             
-            oc.setResponsavel(buscarUmPolicial("52342424100"));
+            oc.setResponsavel(buscarUmPolicial(idDelegado));
             
         } catch (SQLException e) {
             // faça algo
@@ -285,21 +288,12 @@ public class ControladoraBD {
     }
     
     
-    // insert - ok - no tested
+    // insert - ok - tested
     public boolean salvarOcorrencia(Ocorrencia oc){
         
         boolean isSave = false;
         
         dataBase.start();
-        
-        System.out.println(String.format(
-                    "insert into %s.ocorrencia " +
-                    "(data, hora, del_responsavel, infracao, status, id_endereco, delegacia) values " +
-                    "('%s', '%s', '%s', '%s', '%s', %d, %d);",
-
-                    dataBaseName, oc.getData(), oc.getHota(), oc.getResponsavel().getNumeroMatricula(), oc.getCrime(),
-                    oc.getStatus(), oc.getEndereco().getId(), oc.getDelegacia().getId()
-            ));
             
         try {
 
@@ -308,7 +302,7 @@ public class ControladoraBD {
                     "(data, hora, del_responsavel, infracao, status, id_endereco, delegacia) values " +
                     "('%s', '%s', '%s', '%s', '%s', %d, %d);",
 
-                    dataBaseName, oc.getData(), oc.getHota(), oc.getResponsavel().getNumeroMatricula(), 
+                    dataBaseName, oc.newData(), oc.newHora(), oc.getResponsavel().getNumeroMatricula(), 
                     oc.getCrime(), oc.getStatus(), oc.getEndereco().getId(), oc.getDelegacia().getId()
             ));
 
@@ -319,27 +313,60 @@ public class ControladoraBD {
             dataBase.close();
             return isSave;
         }
+        
             
         //associar equipe        
         ArrayList<Policial> cops = oc.getEquipe();
-
-        // problema quanto ao cadastro da equipe - na tenho id da Ocorrencia para fazer o cadastro
-        if (cops != null)
-            for (Policial cop : cops) 
-                System.out.println("salvar cops");
-       
+    
+        if (cops != null){
+            
+            int id = getIdOcorrence();                        
+                
+            cops.forEach((cop) -> associarUmPolicialAEquipe(cop.getNumeroMatricula(), id));
+            
+        }   
+        
         dataBase.close();
         
         return isSave;
     }
     
+    // insert - ok - tested
+    private int getIdOcorrence(){
+        
+        int id = 0;
+         
+         try{
+        
+            ResultSet resultSet;
+
+            resultSet = dataBase.getStatement().executeQuery(String.format(
+
+                    "SELECT MAX(ocorrencia.id_ocorrencia) FROM %s.ocorrencia;",
+
+                    dataBaseName
+            ));
+
+            if (resultSet != null)
+
+                while (resultSet.next())
+
+                    id = resultSet.getInt(1);
+                
+         }catch(SQLException e){
+             System.err.println("Quando procurou por id");
+         }
+         
+        return id;
+    }
     
-    // insert - ok - no tested
+    
+    // insert - ok - tested
     public boolean associarEquipe(Policial policial, int idOcorrencia){
         
         dataBase.start();
         
-        boolean answer = associarUmaEquipe(policial, idOcorrencia);
+        boolean answer = associarUmPolicialAEquipe(policial, idOcorrencia);
         
         dataBase.close();
         
@@ -347,12 +374,12 @@ public class ControladoraBD {
     }
     
     
-    // insert - ok - no tested
+    // insert - ok - tested
     public boolean associarEquipe(String idPolicial, int idOcorrencia){
         
         dataBase.start();
         
-        boolean answer =  associarUmaEquipe(idPolicial, idOcorrencia);
+        boolean answer =  associarUmPolicialAEquipe(idPolicial, idOcorrencia);
         
         dataBase.close();
         
@@ -360,8 +387,8 @@ public class ControladoraBD {
     }
     
     
-    // insert - ok - no tested
-    private boolean associarUmaEquipe(Object policial, int idOcorrencia){
+    // insert - ok - tested
+    private boolean associarUmPolicialAEquipe(Object policial, int idOcorrencia){
         
         boolean isSave = false;
         
@@ -372,34 +399,33 @@ public class ControladoraBD {
             cop = (Policial) policial;
         
         idPolicia = (cop != null) ? cop.getNumeroMatricula() : (String) policial;
-             
-        try {   
+                     
+        try{
 
             dataBase.getStatement().executeUpdate(String.format(
                     "insert into %s.equipe values " +
-                    "(%s, %d);",
+                    "('%s', %d);",
 
                     dataBaseName, idPolicia, idOcorrencia
             ));
 
             isSave = true;
-
-        } catch (SQLException e) {
-            System.err.println("Error while saving data (ocorrencia).. ");
-            return isSave;
+            
+        }catch(SQLException e){
+            System.err.println("Erro ao associar EQUIPE AND OCORRENCIA");
         }
  
         return isSave;
     }
     
     
-    // select - ok - no tested
+    // select - not ok - no tested
     public boolean verificarDadoBD(String CPF) {
         return false;
     }
     
     
-    // select - ok - tested
+    // select - ok - tested (falta endereco)
     public Cidadao buscarCidadao(String CPF) {
         Cidadao cid = null;
         Endereco end = null;
@@ -439,6 +465,12 @@ public class ControladoraBD {
                     cid.setTelefone(resultSet.getString(8));
                     cid.setStatus(resultSet.getString(9));
                     cid.setId_naturalidade(resultSet.getInt(10));
+//                    cid.setNomeMae(resultSet.getString(4));
+//                    cid.setNomePai(resultSet.getString(5));
+//                    cid.setAlcunha(resultSet.getString(6));
+//                    cid.setTelefone(resultSet.getString(7));
+//                    cid.setStatus(resultSet.getString(8));
+//                    cid.setId_naturalidade(resultSet.getInt(9));
                 }
             
             if (cid != null){
@@ -683,7 +715,7 @@ public class ControladoraBD {
     }
     
     
-    // select - ok - tested (falta endereco)
+    // select - ok - tested
     private void buscarNaturalidade (Object table, int id) throws SQLException{
         
         ResultSet resultSet;
@@ -716,7 +748,7 @@ public class ControladoraBD {
     }
     
     
-    // select - ok - tested
+    // select - not ok - not tested
     public void buscarEndereco (Endereco endereco, int id) throws SQLException{
         
         ResultSet resultSet;

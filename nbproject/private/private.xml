@@ -4,14 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/select_ocorrencia_teste.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/BD.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Delegacia.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Cidadao.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/select_evidencia_teste.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/find_delegado_teste.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Ocorrencia.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/update_delegacia_teste.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/ControladoraBD.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/insert_ocorrencia_teste.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/nbproject/jfx-impl.xml</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/BD.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/insert_cidadao_teste.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Delegacia.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/find_delegado_teste.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/update_delegacia_teste.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/connection_teste.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/ControladoraBD.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/select_cidadao_teste.java</file>
         </group>
     </open-files>
 </project-private>

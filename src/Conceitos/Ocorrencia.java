@@ -6,10 +6,12 @@ import java.util.Date;
 import static lib.Constants.ATIVO;
 
 public class Ocorrencia {
+    
+    private int id;
         
     private Date data;
     
-    private Date hota;
+    private Date hora;
     
     private Policial responsavel;
     
@@ -52,15 +54,14 @@ public class Ocorrencia {
         this.data = new Date();
     }
 
-    public String getData() {
+    public String newData() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
         createDate();
 	String date = sdf.format(data); 
-	System.out.println(date);   
-        return date;
+	 return date;
     }
 
-    public String getHota() {
+    public String newHora() {
         
         String date;
         
@@ -68,14 +69,12 @@ public class Ocorrencia {
             
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
             date = sdf.format(data); 
-            System.out.println(date);   
             
         }
         else {
             
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
             date = sdf.format(new Date()); 
-            System.out.println(date); 
             
         }
         
@@ -86,10 +85,16 @@ public class Ocorrencia {
         this.data = data;
     }
 
-    public void setHota(Date hota) {
-        this.hota = hota;
+    public Date getData() {
+        return data;
+    }
+    public void setHora(Date hora) {
+        this.hora = hora;
     }
     
+    public Date getHota() {
+        return this.hora;
+    }   
     
 
     public Policial getResponsavel() {
@@ -139,6 +144,13 @@ public class Ocorrencia {
     public void setDelegacia(Delegacia delegacia) {
         this.delegacia = delegacia;
     }
+
+    public int getId() {
+        return id;
+    }  
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
-        
 }

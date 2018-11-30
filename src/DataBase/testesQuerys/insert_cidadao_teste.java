@@ -40,8 +40,9 @@ public class insert_cidadao_teste {
 
         cid.setId_naturalidade(3);
         cid.setNaturalidade(nat);
+        cid.setDataNascimento("1994-08-08");
         cid.setAlcunha("jao4");
-        cid.setCpf("233770373");
+        cid.setCpf("233880373");
         cid.setNome("jaozao2");
         cid.setNomeMae("joaquina B2");
         cid.setNomePai("joao pai B2");

@@ -90,3 +90,6 @@ WHERE equipe.id_ocorrencia = 1;
 UPDATE policia_db.ocorrencia
 SET ocorrencia.delegacia = 1
 WHERE ocorrencia.id_ocorrencia = 1;
+
+-- quantidade ocorrências 
+SELECT MAX(ocorrencia.id_ocorrencia) FROM policia_db.ocorrencia;

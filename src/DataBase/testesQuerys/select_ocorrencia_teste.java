@@ -30,6 +30,7 @@ public class select_ocorrencia_teste {
         Ocorrencia oc = cbd.buscarOcorrencia(1);
         
         System.out.println("\n\t *** OCORRENCIA ****\n");
+        System.out.println("id: " + oc.getId());
         System.out.println("data: " + oc.getData());
         System.out.println("hora: " + oc.getHota());
         System.out.println("crime: " + oc.getCrime());

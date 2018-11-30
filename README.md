@@ -112,7 +112,7 @@ No menu faça o caminho `FILE > RUN SCRIPT... > (selecione` [generate.sql](https
 
 > via Workbench - model
 
-Clique sobre [model_bd_apsoo.mwb](https://github.com/Wesleycampagna/apsoo_trabalho/blob/master/Assets/model_bd_apsoo.mwb) faça o caminho `TOOL > ENGINEER FORWARD... > (configs) > NEXT > NEXT ...` e está criado o banco de dados.
+Clique sobre [model_bd_apsoo.mwb](https://github.com/Wesleycampagna/apsoo_trabalho/blob/master/Assets/model_bd_apsoo.mwb) faça o caminho `DATABASE > ENGINEER FORWARD... > (configs) > NEXT > NEXT ...` e está criado o banco de dados.
 
 ### polulando banco de dados via script ###
 

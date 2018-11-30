@@ -1,6 +1,10 @@
 package Conceitos;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Cidadao {
     
@@ -64,12 +68,28 @@ public class Cidadao {
         this.cpf = cpf;
     }
     
-    public Date getDataNascimento() {
-        return dataNascimento;
+    public String getDataNascimento() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(dataNascimento);         
     }
     
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDataNascimento(Date date){
+        System.out.println("Enter set Date");
+        this.dataNascimento = date;
+    }
+    
+    public void setDataNascimento(String dataNascimento) {
+     
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        try {
+                    
+            this.dataNascimento = sdf.parse(dataNascimento);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(Cidadao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("this: " + this.dataNascimento);
     }
     
     public String getTelefone() {
