@@ -1,8 +1,11 @@
 package Conceitos;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static lib.Constants.ATIVO;
 
 public class Ocorrencia {
@@ -23,31 +26,31 @@ public class Ocorrencia {
     
     private Delegacia delegacia;
     
+    private Evidencia evidencia;        // entra proximas iteraçoes separar evidencia (n:m)
+    
+    private Cidadao envolvido;          // entra proximas iteraçoes separar evidencia  (n:m)
+    
     private ArrayList<Policial> equipe;
     
+    
+    public Ocorrencia(String crime){
+        this.crime = crime;
+    }
+    
+    public Ocorrencia(){        
+    }
     
     private void atribuirComoAtiva() {
         setStatus(ATIVO);
     }
     
     public void AtribuirPessoasEnvolvidas(Cidadao pessoasEnvolvidas) {
-        
+        // tem que assicias duas tables diferentes usando do id da ocorrencia e das pessoas envolvidas
     }
     
-    public void AssociarEquipePolicial(Policial equiePolicial) {
-        
-    }
-    
-    public void AssociarDelegacia(Delegacia delegacia) {
-        
-    }
-    
-    public void AssociarDelegado(Policial delegadoResponsavel) {
-        
-    }
     
     public void atribuirEvidencias(Evidencia evidencias) {
-        
+        // tem que pegar o id de todas as ocorrencias e associar ao id destra ocorrencia - o problema esta no n:m do banco de dados     
     }
     
     private void createDate(){
@@ -84,17 +87,47 @@ public class Ocorrencia {
     public void setData(Date data) {
         this.data = data;
     }
-
+    
+    public void setData(String data){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {     
+            this.data = sdf.parse(data);
+        } catch (ParseException ex) {
+            Logger.getLogger(Ocorrencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void setHora(String hora){
+        // 1998-06-21
+        // 00:00:00
+           
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        try {     
+            this.hora = sdf.parse(hora);
+        } catch (ParseException ex) {
+            Logger.getLogger(Ocorrencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
     public Date getData() {
         return data;
     }
+    
+    public String getDataS() {
+        return data.toString();
+    }
+    
     public void setHora(Date hora) {
         this.hora = hora;
     }
     
     public Date getHota() {
         return this.hora;
-    }   
+    }  
+    
+    public String getHotaS() {
+        return this.hora.toString();
+    } 
     
 
     public Policial getResponsavel() {
@@ -152,5 +185,27 @@ public class Ocorrencia {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Evidencia getEvidencia() {
+        return evidencia;
+    }
+
+    public void setEvidencia(Evidencia evidencia) {
+        this.evidencia = evidencia;
+    }
+
+    public Cidadao getEnvolvido() {
+        return envolvido;
+    }
+
+    public void setEnvolvido(Cidadao envolvido) {
+        this.envolvido = envolvido;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %d\tcrime: %s ", this.id, crime);
+    }
+    
     
 }

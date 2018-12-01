@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class ControladoraBD {
@@ -206,16 +207,82 @@ public class ControladoraBD {
         return true;
     }
     
+    public List <Ocorrencia> buscarOcorrencias(){
+        
+        List<Ocorrencia> ocorrencias = null; 
+        
+        List <Integer> idsOcorrencia = null; 
+         
+        dataBase.start();
+        
+        try {
+            
+             ResultSet resultSet = dataBase.getStatement().executeQuery(String.format(
+                    
+                    "SELECT ocorrencia.id_ocorrencia FROM %s.ocorrencia",
+                    
+                    dataBaseName
+            ));
+            
+            if (resultSet != null){
+                
+                idsOcorrencia = new ArrayList<>();
+                
+                while (resultSet.next()){
+                    
+                   idsOcorrencia.add(resultSet.getInt(1));
+            
+                }
+                
+            }
+            
+        } catch (SQLException e) {
+            // faça algo
+            System.err.println("ERRO buscar ids Ocorrencias ");
+        }
+        
+        
+        if (idsOcorrencia != null){
+            
+            ocorrencias = new ArrayList<>();
+            for (Integer integer : idsOcorrencia) {
+
+                ocorrencias.add(buscarUmaOcorrencia(integer));
+            }
+        
+        }
+        
+        dataBase.close();
+        
+        return ocorrencias;
+                
+    }
+    
+    public Ocorrencia buscarOcorrencia(int nroOcorrencia){
+        
+        Ocorrencia oc = null;
+        
+        dataBase.start();
+        
+        try {
+            oc = buscarUmaOcorrencia(nroOcorrencia);
+        } catch (Exception e) {
+            System.err.println("ERRO capturar ocorrencia nr: " + nroOcorrencia);
+        }
+        
+        dataBase.close();
+    
+        return oc;
+    }
+       
     
     // select - ok - tested (falta endereco)
-    public Ocorrencia buscarOcorrencia(int nroOcorrencia) {
+    private Ocorrencia buscarUmaOcorrencia(int nroOcorrencia) {
         
         Ocorrencia oc = null;
         String idDelegado = null;
         int idEndereco = -1;
-        
-        dataBase.start();
-        
+               
         try{
                         
             ResultSet resultSet = dataBase.getStatement().executeQuery(String.format(
@@ -261,6 +328,11 @@ public class ControladoraBD {
         }
         
         // set endereco
+        try {
+            
+        } catch (Exception e) {
+            System.err.println("Nao capturou endereço");
+        }
         
         // set delegado
         try {
@@ -281,8 +353,6 @@ public class ControladoraBD {
             // faça algo
             System.err.println("erro SELECT Equipe!");
         }
-        
-        dataBase.close();
         
         return oc;
     }
@@ -843,6 +913,45 @@ public class ControladoraBD {
         return evidence;
     }
     
+    
+    public List<Delegacia> buscarDelegacias(){
+        
+        ArrayList<Delegacia> delegacias = null; 
+        
+        try{
+            
+            dataBase.start();
+            ResultSet resultSet;
+            
+            // in table evidencia
+            resultSet = dataBase.getStatement().executeQuery(String.format(
+                    
+                    "SELECT delegacia.id_delegacia, delegacia.sigla, delegacia.nome FROM %s.delegacia;", dataBaseName
+            ));
+            
+            if (resultSet != null){
+                
+                delegacias = new ArrayList<>();
+                
+                while (resultSet.next()){
+                    
+                   Delegacia delegacia = new Delegacia();
+                   
+                   delegacia.setId(resultSet.getInt(1));
+                   delegacia.setSigla(resultSet.getString(2));
+                   delegacia.setNome(resultSet.getString(3));
+                   
+                   delegacias.add(delegacia);
+                   
+                }                
+            }
+            
+        }catch(SQLException e){
+            System.err.println("erro durante busca de evidencias");
+        }
+        
+        return delegacias;
+    }
     
     // helper - ok - tested
     public void statusBD(){

@@ -32,6 +32,16 @@ public class Cidadao {
     
     private Endereco endereco;
     
+    public Cidadao(){
+        
+    }
+
+    public Cidadao(String nome) {
+        this.nome = nome;
+    }
+    
+    
+    
     public void atribuirStatus(String status) {
         
     }
@@ -152,6 +162,13 @@ public class Cidadao {
     public void setId_naturalidade(int id_naturalidade) {
         this.id_naturalidade = id_naturalidade;
     }
+
+    @Override
+    public String toString() {
+        return "Cidadao{" + "nome=" + nome + '}';
+    }
+    
+    
     
     
 }

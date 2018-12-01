@@ -32,8 +32,10 @@ public class Delegacia {
     public void setId(int id) {
         this.id = id;
     }
-        
-    
-            
 
+    @Override
+    public String toString() {
+        return "Delegacia{" + "sigla=" + sigla + '}';
+    }
+   
 }

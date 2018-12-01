@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="648.0000999999975" prefWidth="739.9998779296875" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="policiaapp.FXMLOcorrenciaController">
+  <children>
+    <VBox layoutX="0.0" layoutY="0.0" prefHeight="200.0" prefWidth="110.0">
+      <children>
+        <Button mnemonicParsing="false" onAction="#adiciona" prefHeight="40.0" prefWidth="110.0" text="Adicionar" />
+        <Button mnemonicParsing="false" onAction="#alterar" prefHeight="40.0" prefWidth="110.0" text="Alterar" />
+        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" text="Buscar" />
+        <Button mnemonicParsing="false" onAction="#voltar" prefHeight="40.0" prefWidth="110.0" text="Voltar" />
+      </children>
+    </VBox>
+    <ListView fx:id="listaOcorrencia" layoutX="116.0" layoutY="40.0" onMouseClicked="#clicaNoItem" prefHeight="160.0" prefWidth="630.0" />
+    <TextField fx:id="edtData" layoutX="56.0" layoutY="267.0" prefWidth="119.0" />
+    <Label fx:id="txtData" layoutX="15.0" layoutY="267.0" prefHeight="21.999908447265625" text="Data" />
+    <Label fx:id="txtDoBotao" layoutX="23.0" layoutY="209.0" text="Colocar texto aqui" />
+    <Label fx:id="txtHora" layoutX="206.0" layoutY="270.0" text="Hora" />
+    <TextField id="edtData" fx:id="edtHora" layoutX="259.0" layoutY="267.0" prefWidth="119.0" />
+    <Label fx:id="txtDelegadoResponsavel" layoutX="594.0" layoutY="234.0" text="Delegado Responsável" />
+    <ComboBox fx:id="boxDelegados" layoutX="594.0" layoutY="269.0" prefHeight="21.0" prefWidth="119.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <Label fx:id="txtCrime" layoutX="14.0" layoutY="234.0" text="Crime/Infraçaõ" />
+    <TextField fx:id="edtCrime" layoutX="105.0" layoutY="234.0" prefWidth="200.0" />
+    <TextField fx:id="edtBusca" layoutX="110.0" layoutY="3.0" prefHeight="37.0" prefWidth="551.0" />
+    <Label fx:id="txtStatus" layoutX="594.0" layoutY="310.0" text="Status" />
+    <ListView fx:id="listEvidencia" layoutX="13.0" layoutY="474.0" prefHeight="63.0" prefWidth="162.0" />
+    <Label fx:id="txtEvidencia" layoutX="14.0" layoutY="448.0" text="Evidencias" />
+    <Button fx:id="btnAdicionarEvidencia" layoutX="15.0" layoutY="544.0" mnemonicParsing="false" onAction="#adicionarEvidencia" text="Adicionar" />
+    <Button fx:id="btnRemoverEvidencia" layoutX="86.0" layoutY="544.0" mnemonicParsing="false" onAction="#removerEvidencia" text="Remover" />
+    <Label fx:id="txtEnvolvidos" layoutX="258.0" layoutY="451.0" text="Envolvidos" />
+    <ListView fx:id="listEnvolvidos" layoutX="258.0" layoutY="474.0" prefHeight="63.0" prefWidth="172.0" />
+    <Button fx:id="btnAdicionarEnvolvidos" layoutX="258.0" layoutY="548.0" mnemonicParsing="false" onAction="#adicionarEnvolvido" text="Adicionar" />
+    <Button fx:id="btnRemoverEnvolvidos" layoutX="329.0" layoutY="548.0" mnemonicParsing="false" onAction="#removerEnvolvido" text="Remover" />
+    <Button fx:id="btnDoBotao" layoutX="637.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="30.0" prefWidth="103.0" text="Colocar o Texto aqui" />
+    <Button fx:id="btnBusca" layoutX="661.0" layoutY="3.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="79.0" text="Buscar" />
+    <ComboBox id="btnStatus" fx:id="boxStatus" layoutX="594.0" layoutY="342.0" prefHeight="21.0" prefWidth="119.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <Label fx:id="txtDelegadoResponsabvel" layoutX="594.0" layoutY="253.0" prefWidth="120.0" text="" />
+    <Label fx:id="txtStatusResultante" layoutX="597.0" layoutY="326.0" prefWidth="110.0" text="" />
+    <Label fx:id="txtEndereco" layoutX="15.0" layoutY="317.0" text="Endereço" />
+    <TextField fx:id="edtLogradouro" layoutX="107.0" layoutY="346.0" prefWidth="103.0" />
+    <TextField fx:id="edtCep" layoutX="250.0" layoutY="345.0" prefWidth="120.0" />
+    <Label fx:id="txtLogradouro" layoutX="15.0" layoutY="349.0" text="Logradououro" />
+    <Label fx:id="txtCep" layoutX="219.0" layoutY="348.0" text="CEP" />
+    <Label fx:id="txtnumero" layoutX="378.0" layoutY="345.0" text="Numero" />
+    <TextField fx:id="edtNumero" layoutX="430.0" layoutY="345.0" prefWidth="33.0" />
+    <Label fx:id="txtCidade" layoutX="15.0" layoutY="383.0" text="Cidade" />
+    <TextField fx:id="edtCidade" layoutX="56.0" layoutY="381.0" prefWidth="132.0" />
+    <TextField fx:id="edtUf" layoutX="230.0" layoutY="381.0" prefWidth="57.0" />
+    <Label fx:id="txtUf" layoutX="200.0" layoutY="384.0" text="UF" />
+    <Label fx:id="txtEquipe" layoutX="492.0" layoutY="451.0" text="Equipe" />
+    <ListView fx:id="listEquipe" layoutX="492.0" layoutY="474.0" prefHeight="63.0" prefWidth="200.0" />
+    <Button id="btnAdicionarEnvolvidos" fx:id="btnAdicionaEquipe" layoutX="492.0" layoutY="548.0" mnemonicParsing="false" onAction="#adicionarEquipe" text="Adicionar" />
+    <Button id="btnRemoverEnvolvidos" fx:id="btnRemoveEquipe" layoutX="563.0" layoutY="548.0" mnemonicParsing="false" onAction="#removerEquipe" text="Remover" />
+    <Label id="txtEidente" fx:id="txtEvidente" layoutX="77.0" layoutY="448.0" text="" />
+    <Label fx:id="txtEnvolvido" layoutX="329.0" layoutY="451.0" text="" />
+    <Label fx:id="txtEquiepeSelecionado" layoutX="535.0" layoutY="451.0" text="" />
+    <Label fx:id="txtDelegacia" layoutX="594.0" layoutY="384.0" text="Delegacia" />
+    <ComboBox fx:id="boxDelegacias" layoutX="595.0" layoutY="416.0" prefHeight="21.0" prefWidth="119.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+  </children>
+  <stylesheets>
+    <URL value="@fxmlocorrencia.css" />
+  </stylesheets>
+</AnchorPane>

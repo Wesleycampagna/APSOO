@@ -21,6 +21,10 @@ public class Evidencia {
     public void setDescc(String descc) {
         this.descc = descc;
     }
-        
+
+    @Override
+    public String toString() {
+        return "Evidencia{" + "descc=" + descc + '}';
+    }
         
 }

@@ -23,6 +23,15 @@ public class Policial {
 
 	private String nomePai;
 
+    public Policial(String nome) {
+        this.nome = nome;
+    }
+    
+    public Policial() {
+    }
+        
+    
+
     public String getNumeroMatricula() {
         return numeroMatricula;
     }
@@ -94,8 +103,11 @@ public class Policial {
     public void setNomePai(String nomePai) {
         this.nomePai = nomePai;
     }
-        
-        
 
+    @Override
+    public String toString() {
+        return "Policial{" + "nome=" + nome + '}';
+    }
+        
 }
 
