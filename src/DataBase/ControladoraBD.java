@@ -120,8 +120,46 @@ public class ControladoraBD {
     }
     
     
-    // update - ok - not tested
     public boolean atualizarOcorrencia(Ocorrencia oc) {
+        
+        boolean isSave = false;
+        
+        dataBase.start();
+        
+        if (oc != null) 
+           
+            try {
+                
+                adicionarEndereco(oc.getEndereco());
+
+                dataBase.getStatement().executeUpdate(String.format(
+
+                        "update %s.ocorrencia " +
+                        "set ocorrencia.del_responsavel = %s, ocorrencia.infracao = '%s', " +
+                        "ocorrencia.status = '%s', ocorrencia.id_endereco = %d, ocorrencia.delegacia = %d " +
+                        "Where ocorrencia.id_ocorrencia = %d;",
+
+                        dataBaseName, oc.getResponsavel().getNumeroMatricula(), oc.getCrime(),
+                        oc.getStatus(), quantEnderecos(), oc.getDelegacia().getId(), oc.getId()
+
+                ));
+
+                isSave = true;
+
+            } catch (SQLException e) {
+                System.err.println("Error while saving data (update delegacia).. ");
+                dataBase.close();
+                return isSave;
+            }        
+       
+        dataBase.close();
+        
+        return isSave;
+    }
+    
+    
+    // update - ok - tested
+    public boolean myAtualizarOcorrencia(Ocorrencia oc) {
         
         boolean isSave = false;
         
@@ -400,6 +438,50 @@ public class ControladoraBD {
     
     // insert - ok - tested
     public boolean salvarOcorrencia(Ocorrencia oc){
+        
+        boolean isSave = false;
+        
+        dataBase.start();
+                    
+        try {
+            
+            adicionarEndereco(oc.getEndereco());
+
+            dataBase.getStatement().executeUpdate(String.format(
+                    "insert into %s.ocorrencia " +
+                    "(data, hora, del_responsavel, infracao, status, id_endereco, delegacia) values " +
+                    "('%s', '%s', '%s', '%s', '%s', %d, %d);",
+
+                    dataBaseName, oc.newData(), oc.newHora(), oc.getResponsavel().getNumeroMatricula(), 
+                    oc.getCrime(), oc.getStatus(), quantEnderecos(), oc.getDelegacia().getId()
+            ));
+
+            isSave = true;
+
+        } catch (SQLException e) {
+            System.err.println("Error while saving data (ocorrencia).. ");
+            dataBase.close();
+            return isSave;
+        }
+        
+            
+        //associar equipe        
+        ArrayList<Policial> cops = oc.getEquipe();
+    
+        if (cops != null){
+            
+            int id = getIdOcorrence();                        
+                
+            cops.forEach((cop) -> associarUmPolicialAEquipe(cop.getNumeroMatricula(), id));
+            
+        }   
+        
+        dataBase.close();
+        
+        return isSave;
+    }
+    
+     public boolean mySalvarOcorrencia(Ocorrencia oc){
         
         boolean isSave = false;
         
@@ -879,23 +961,13 @@ public class ControladoraBD {
         
     }
     
+    
     // select - ok - not tested
     private Endereco buscarUmEndereco (int id) throws SQLException{
 
         Endereco end = null;
         
         ResultSet resultSet;
-        
-        System.out.println(String.format(
-
-                "SELECT endereco.logradouro, endereco.numero, endereco.bairro, endereco.complemento, " +
-                "endereco.cep, endereco.referencia, cidade_estado.cidade, " +
-                "cidade_estado.estado FROM %s.endereco " +
-                "JOIN policia_db.cidade_estado ON (cidade_estado.id_cidade_estado = endereco.cid_est) " + 
-                "WHERE endereco.id_endereco = %d;",
-
-                dataBaseName, id
-        ));
         
         resultSet = dataBase.getStatement().executeQuery(String.format(
 
@@ -927,6 +999,36 @@ public class ControladoraBD {
                 
         return end;
      }
+    
+    
+    private void adicionarEndereco(Endereco end) throws SQLException{        
+        
+        dataBase.getStatement().executeUpdate(String.format(
+                "INSERT INTO %s.endereco (logradouro, numero, bairro, complemento, cep, referencia, cid_est) VALUES " +
+                "('%s', %d, '%s', '%s', %d, '%s', '%d');",
+                
+                dataBaseName, end.getLogradouro(), end.getNumero(), end.getBairro(), end.getComplemento(), 
+                Integer.parseInt(end.getCep()), end.getReferencia(), 1
+                
+        ));     // 1 sera sempre cg - ms
+    }
+    
+    
+    private int quantEnderecos () throws SQLException{
+        
+        int quant = -1;
+        
+        ResultSet resultSet = dataBase.getStatement().executeQuery(String.format(
+                "SELECT MAX(endereco.id_endereco) FROM %s.policia_db;",
+                dataBaseName
+        ));
+        
+        if (resultSet != null)
+            
+            quant = resultSet.getInt(1);
+        
+        return quant;
+    }
     
     
     // select - ok - not tested

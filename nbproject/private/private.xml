@@ -5,24 +5,17 @@
         <group>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/select_ocorrencia_teste.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Cidadao.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/fxmlcidadao.css</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/Mensagens.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/PessoasEnvolvidas.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Controller/OcorrenciaController.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/select_evidencia_teste.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/PoliciaApp.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Ocorrencia.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Evidencia.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Policial.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/insert_ocorrencia_teste.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/update_ocorrencia.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Delegacia.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/fxmlevidencia.css</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/fxmlocorrencia.css</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/select_delegacias_teste.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/connection_teste.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/FXMLOcorrenciaController.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/testesQuerys/buscar_endereco.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/DataBase/ControladoraBD.java</file>
+            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/FXMLOcorrenciaController.java</file>
             <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/Conceitos/Endereco.java</file>
-            <file>file:/home/wesley/NetBeansProjects/TRABALHO_APSOO/src/policiaapp/FXMLEvidenciaController.java</file>
         </group>
     </open-files>
 </project-private>
