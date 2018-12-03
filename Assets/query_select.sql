@@ -93,3 +93,22 @@ WHERE ocorrencia.id_ocorrencia = 1;
 
 -- quantidade ocorrências 
 SELECT MAX(ocorrencia.id_ocorrencia) FROM policia_db.ocorrencia;
+
+-- endereco
+SELECT endereco.logradouro, endereco.numero, endereco.bairro, endereco.complemento, 
+endereco.cep, endereco.referencia, cidade_estado.cidade,
+cidade_estado.estado FROM policia_db.endereco
+JOIN policia_db.cidade_estado ON (cidade_estado.id_cidade_estado = endereco.cid_est);
+
+-- endereco by ID
+SELECT endereco.logradouro, endereco.numero, endereco.bairro, endereco.complemento, 
+endereco.cep, endereco.referencia, cidade_estado.cidade,
+cidade_estado.estado FROM policia_db.endereco
+JOIN policia_db.cidade_estado ON (cidade_estado.id_cidade_estado = endereco.cid_est)
+WHERE endereco.id_endereco = 1;
+
+-- update ocorrencia 
+update policia_db.ocorrencia 
+set ocorrencia.del_responsavel = 45345345300, ocorrencia.infracao = 'ma fé',
+ocorrencia.status = 'ativo', ocorrencia.id_endereco = 4, ocorrencia.delegacia = 3
+Where ocorrencia.id_ocorrencia = 5;

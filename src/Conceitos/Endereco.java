@@ -105,6 +105,11 @@ public class Endereco {
         this.id_cid_estado = id_cid_estado;
     }
 
+    @Override
+    public String toString() {
+        return "logradouro: " + logradouro + ", numero: " + numero + ", bairro: " + bairro + ", cidade: " + cidade + ", estado: " + estado;
+    }
+
     
     
 }

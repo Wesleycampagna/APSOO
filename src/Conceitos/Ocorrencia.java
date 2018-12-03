@@ -204,8 +204,7 @@ public class Ocorrencia {
 
     @Override
     public String toString() {
-        return String.format("id: %d\tcrime: %s ", this.id, crime);
+        return "crime: " + crime + ", status: " + status + ", data: " + data + ", hora: " + hora + ", responsavel: " + responsavel + ", endereco: " + endereco + ", delegacia: " + delegacia + ", evidencia: " + evidencia + ", envolvido: " + envolvido + ", equipe: " + equipe;
     }
-    
     
 }

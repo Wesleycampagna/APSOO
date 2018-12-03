@@ -24,7 +24,7 @@ public class Evidencia {
 
     @Override
     public String toString() {
-        return "Evidencia{" + "descc=" + descc + '}';
+        return "descc: " + descc;
     }
         
 }

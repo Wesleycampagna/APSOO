@@ -42,7 +42,8 @@ public class OcorrenciaController {
     }
     
     public void alterar(Ocorrencia ocorenciaVelha, Ocorrencia ocorrenciaNova) {
-        throw new UnsupportedOperationException("Not Implementado Ainda"); //To change body of generated methods, choose Tools | Templates.
+        ocorrenciaNova.setId(ocorenciaVelha.getId());
+        new ControladoraBD("policia_db").atualizarOcorrencia(ocorrenciaNova);
     }
 
     public void remove(Ocorrencia ocorrencia) {

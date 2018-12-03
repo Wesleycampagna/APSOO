@@ -165,10 +165,9 @@ public class Cidadao {
 
     @Override
     public String toString() {
-        return "Cidadao{" + "nome=" + nome + '}';
+        return "nome: " + nome;
     }
-    
-    
+
     
     
 }

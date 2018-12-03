@@ -106,7 +106,7 @@ public class Policial {
 
     @Override
     public String toString() {
-        return "Policial{" + "nome=" + nome + '}';
+        return "nome:" + nome + ", matricula: " + numeroMatricula;
     }
         
 }

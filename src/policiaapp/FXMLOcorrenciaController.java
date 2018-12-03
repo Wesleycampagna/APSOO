@@ -498,7 +498,7 @@ public class FXMLOcorrenciaController {
                     if( newValue.getEndereco() != null){
                         edtLogradouro.setText(newValue.getEndereco().getLogradouro());
                         edtCep.setText(newValue.getEndereco().getCep());
-                        edtNumero.setText(newValue.getEndereco().getNumero() + "");
+                        edtNumero.setText(String.valueOf(newValue.getEndereco().getNumero()));
                         edtCidade.setText(newValue.getEndereco().getCidade());
                         edtUf.setText(newValue.getEndereco().getEstado());
                     }

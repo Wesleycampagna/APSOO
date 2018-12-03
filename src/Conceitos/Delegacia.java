@@ -35,7 +35,7 @@ public class Delegacia {
 
     @Override
     public String toString() {
-        return "Delegacia{" + "sigla=" + sigla + '}';
+        return "sigla: " + sigla + ",  nome: " + nome;
     }
    
 }

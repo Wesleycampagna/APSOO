@@ -94,31 +94,67 @@ public class ControladoraBD {
         
         dataBase.start();
             
-            try {
-                
-                dataBase.getStatement().executeUpdate(String.format(
-                        
-                        "UPDATE %s.ocorrencia " +
-                        "SET ocorrencia.delegacia = %d " +
-                        "WHERE ocorrencia.id_ocorrencia = %d;",
-                        
-                        dataBaseName, idNewDelegacia, idOcorrencia
-                        
-                ));
-                
-                isSave = true;
-                
-            } catch (SQLException e) {
-                System.err.println("Error while saving data (nova delegacia).. ");
-                dataBase.close();
-                return isSave;
-            }
+        try {
+
+            dataBase.getStatement().executeUpdate(String.format(
+
+                    "UPDATE %s.ocorrencia " +
+                    "SET ocorrencia.delegacia = %d " +
+                    "WHERE ocorrencia.id_ocorrencia = %d;",
+
+                    dataBaseName, idNewDelegacia, idOcorrencia
+
+            ));
+
+            isSave = true;
+
+        } catch (SQLException e) {
+            System.err.println("Error while saving data (nova delegacia).. ");
+            dataBase.close();
+            return isSave;
+        }
        
         dataBase.close();
         
         return isSave;
     }
     
+    
+    // update - ok - not tested
+    public boolean atualizarOcorrencia(Ocorrencia oc) {
+        
+        boolean isSave = false;
+        
+        dataBase.start();
+        
+        if (oc != null) 
+           
+            try {
+
+                dataBase.getStatement().executeUpdate(String.format(
+
+                        "update %s.ocorrencia " +
+                        "set ocorrencia.del_responsavel = %s, ocorrencia.infracao = '%s', " +
+                        "ocorrencia.status = '%s', ocorrencia.id_endereco = %d, ocorrencia.delegacia = %d " +
+                        "Where ocorrencia.id_ocorrencia = %d;",
+
+                        dataBaseName, oc.getResponsavel().getNumeroMatricula(), oc.getCrime(),
+                        oc.getStatus(), oc.getEndereco().getId(), oc.getDelegacia().getId(), oc.getId()
+
+                ));
+
+                isSave = true;
+
+            } catch (SQLException e) {
+                System.err.println("Error while saving data (update delegacia).. ");
+                dataBase.close();
+                return isSave;
+            }        
+       
+        dataBase.close();
+        
+        return isSave;
+    }
     
     // insert - not ok - no tested
     public boolean salvarPolicial(Policial cop){
@@ -207,6 +243,7 @@ public class ControladoraBD {
         return true;
     }
     
+    
     public List <Ocorrencia> buscarOcorrencias(){
         
         List<Ocorrencia> ocorrencias = null; 
@@ -257,6 +294,7 @@ public class ControladoraBD {
         return ocorrencias;
                 
     }
+    
     
     public Ocorrencia buscarOcorrencia(int nroOcorrencia){
         
@@ -330,7 +368,9 @@ public class ControladoraBD {
         // set endereco
         try {
             
-        } catch (Exception e) {
+            oc.setEndereco(buscarUmEndereco(idEndereco));
+            
+        } catch (SQLException e) {
             System.err.println("Nao capturou endereço");
         }
         
@@ -400,6 +440,7 @@ public class ControladoraBD {
         
         return isSave;
     }
+    
     
     // insert - ok - tested
     private int getIdOcorrence(){
@@ -818,23 +859,125 @@ public class ControladoraBD {
     }
     
     
-    // select - not ok - not tested
-    public void buscarEndereco (Endereco endereco, int id) throws SQLException{
+    public Endereco buscarEndereco(int id){
+        
+        Endereco end = null;
+        
+        dataBase.start();
+        
+        try {
+            
+            end = buscarUmEndereco(id);
+            
+        } catch (SQLException e) {
+            System.err.println("Erro capturar ENDERECO");            
+        }
+        
+        dataBase.close();
+        
+        return end;
+        
+    }
+    
+    // select - ok - not tested
+    private Endereco buscarUmEndereco (int id) throws SQLException{
+
+        Endereco end = null;
         
         ResultSet resultSet;
         
-        resultSet = dataBase.getStatement().executeQuery(String.format(
-                "query"
+        System.out.println(String.format(
+
+                "SELECT endereco.logradouro, endereco.numero, endereco.bairro, endereco.complemento, " +
+                "endereco.cep, endereco.referencia, cidade_estado.cidade, " +
+                "cidade_estado.estado FROM %s.endereco " +
+                "JOIN policia_db.cidade_estado ON (cidade_estado.id_cidade_estado = endereco.cid_est) " + 
+                "WHERE endereco.id_endereco = %d;",
+
+                dataBaseName, id
         ));
         
-        if (resultSet != null){
+        resultSet = dataBase.getStatement().executeQuery(String.format(
+
+                "SELECT endereco.logradouro, endereco.numero, endereco.bairro, endereco.complemento, " +
+                "endereco.cep, endereco.referencia, cidade_estado.cidade, " +
+                "cidade_estado.estado FROM %s.endereco " +
+                "JOIN policia_db.cidade_estado ON (cidade_estado.id_cidade_estado = endereco.cid_est) " + 
+                "WHERE endereco.id_endereco = %d;",
+
+                dataBaseName, id
+        ));
+
+        if (resultSet != null)
+
+            while (resultSet.next()){
+
+                end = new Endereco();
+
+                end.setLogradouro(resultSet.getString(1));
+                end.setNumero(resultSet.getInt(2));
+                end.setBairro(resultSet.getString(3));
+                end.setComplemento(resultSet.getString(4));
+                end.setCep(resultSet.getString(5));
+                end.setReferencia(resultSet.getString(6));
+                end.setCidade(resultSet.getString(7));
+                end.setEstado(resultSet.getString(8));
+
+            }        
+                
+        return end;
+     }
+    
+    
+    // select - ok - not tested
+    public ArrayList<Endereco> buscarEnderecos() {
+        
+        ArrayList<Endereco> ends = null;
+        
+        ResultSet resultSet;
+        
+        dataBase.start();
+        
+        try {
+            resultSet = dataBase.getStatement().executeQuery(String.format(
+
+                    "SELECT endereco.logradouro, endereco.numero, endereco.bairro, endereco.complemento, " +
+                    "endereco.cep, endereco.referencia, cidade_estado.cidade, " +
+                    "cidade_estado.estado FROM %s.endereco " +
+                    "JOIN policia_db.cidade_estado ON (cidade_estado.id_cidade_estado = endereco.cid_est);",
+                    
+                    dataBaseName
+        ));
+            
+        if (resultSet != null){   
+            
+            ends = new ArrayList<>();
             
             while (resultSet.next()){
                 
+                Endereco end = new Endereco();
                 
+                end.setLogradouro(resultSet.getString(1));
+                end.setNumero(resultSet.getInt(2));
+                end.setBairro(resultSet.getString(3));
+                end.setComplemento(resultSet.getString(4));
+                end.setCep(resultSet.getString(5));
+                end.setReferencia(resultSet.getString(6));
+                end.setCidade(resultSet.getString(7));
+                end.setEstado(resultSet.getString(8));
+                
+                ends.add(end);
                 
             }
         }
+                    
+        } catch (SQLException e) {
+            System.err.println("Nao foi possivel ler os ENDEREÇOS");
+        }
+        
+        dataBase.close();
+        
+        return ends;
     }
     
     
