@@ -5,9 +5,7 @@
  */
 package policiaapp;
 
-import java.util.ArrayList;
-import java.util.List;
-import model.Evidencia;
+import Conceitos.Evidencia;
 
 /**
  *

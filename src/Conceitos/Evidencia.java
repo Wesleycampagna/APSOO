@@ -2,9 +2,17 @@ package Conceitos;
 
 public class Evidencia {
 
-	private int idEvidencia;
+    private int idEvidencia;
 
-        private String descc;
+    private String descc;
+
+    public Evidencia(){
+        
+    }
+
+    public Evidencia(String descc) {
+        this.descc = descc;
+    }
 
     public int getIdEvidencia() {
         return idEvidencia;

@@ -757,6 +757,72 @@ public class ControladoraBD {
     }
     
     
+    public ArrayList<Policial> buscarDelegados(){
+        
+        ArrayList<Policial> cops = null;
+              
+        dataBase.start();
+        
+        ResultSet resultSet;        
+        
+        System.err.println(String.format(
+
+                    "SELECT policial.numero_matricula, Pessoa.nome, Pessoa.rg, Pessoa.cpf, Pessoa.data_nascimento, " +
+                            "policial.telefone, Pessoa.nome_mae, Pessoa.nome_pai " +
+                            "FROM %s.policial " +
+                            "JOIN %s.delegado ON (delegado.numero_matricula = policial.numero_matricula) " + 
+                            "JOIN %s.Pessoa ON (Pessoa.cpf = policial.cpf);",
+
+                    dataBaseName, dataBaseName, dataBaseName
+            ));
+        
+        try{ 
+            
+            // out tables POLICIAL + PESSOA (NOT NACIONALIDADE)        
+            resultSet = dataBase.getStatement().executeQuery(String.format(
+
+                    "SELECT policial.numero_matricula, Pessoa.nome, Pessoa.rg, Pessoa.cpf, Pessoa.data_nascimento, " +
+                            "policial.telefone, Pessoa.nome_mae, Pessoa.nome_pai " +
+                            "FROM %s.policial " +
+                            "JOIN %s.delegado ON (delegado.numero_matricula = policial.numero_matricula) " + 
+                            "JOIN %s.Pessoa ON (Pessoa.cpf = policial.cpf);",
+
+                    dataBaseName, dataBaseName, dataBaseName
+            ));
+
+            if (resultSet != null){
+                
+                cops = new ArrayList<>();
+
+                while (resultSet.next()){
+
+                    Policial cop = new Policial();
+
+                    cop.setNumeroMatricula(resultSet.getString(1));
+                    cop.setNome(resultSet.getString(2));
+                    cop.setRg(Integer.valueOf(resultSet.getString(3)));
+                    cop.setCpf(resultSet.getString(4));
+                    cop.setDataNascimento(resultSet.getDate(5));
+                    cop.setTelefone(resultSet.getString(6));
+                    cop.setNomeMae(resultSet.getString(7));
+                    cop.setNomePai(resultSet.getString(8));
+                    
+                    cop.setNacionalidade(buscarNacionalidades(cop.getCpf()));        
+                    
+                    cops.add(cop);
+                }
+        }
+
+            // out table NACIONALIDADE
+        }catch (SQLException e){
+            System.err.println("ERRO CAPTURAR POLICIAIS ");
+        }
+        
+        dataBase.close();
+        
+        return cops;
+    }
+    
     // select - ok - tested
     public ArrayList<Policial> buscarEquipe(int idOcorrencia) throws SQLException{
         

@@ -207,7 +207,9 @@ public class FXMLOcorrenciaController {
             */
             @FXML
             void btnAdicionar(ActionEvent event) {
-                Ocorrencia oco = new Ocorrencia(edtCrime.getText());
+                
+                if(adicionaAltera){
+                    Ocorrencia oco = new Ocorrencia(edtCrime.getText());
                 oco.setData(edtData.getText());
                 oco.setHora(edtHora.getText());
                 oco.setResponsavel(boxDelegados.getSelectionModel().getSelectedItem());
@@ -220,7 +222,6 @@ public class FXMLOcorrenciaController {
                 cops.add(policialSelecionado);
                 oco.setEquipe(cops);
                 oco.setEvidencia(evidenciaSelecionada);
-                if(adicionaAltera){
                     
                     //TODO Adicioanr as coisas aqui
                     
@@ -230,7 +231,18 @@ public class FXMLOcorrenciaController {
                     limparCampos();
                 }else{
                     
-                    controllerOcorrencia.alterar(listaOcorrencia.getSelectionModel().getSelectedItem(),oco);
+                    Ocorrencia oco = listaOcorrencia.getSelectionModel().getSelectedItem();
+                    oco.setData(edtData.getText());
+                oco.setHora(edtHora.getText());
+                oco.setResponsavel(boxDelegados.getSelectionModel().getSelectedItem());
+                oco.setStatus(boxStatus.getSelectionModel().getSelectedItem());
+                oco.setEndereco(gerarEnderco());
+                oco.setDelegacia(boxDelegacias.getSelectionModel().getSelectedItem());
+                oco.setEnvolvido(cidadaoEnvolvido);
+                    
+                   
+                    
+                    controllerOcorrencia.alterar(oco);
                     carregaLista();
                     limparCampos();
                 }
@@ -387,17 +399,11 @@ public class FXMLOcorrenciaController {
             //Trecho que cuida do Delegado Responsável
             private ObservableList<Policial> obsDelegado;
             
-            private List<Policial> delegados = new ArrayList<>();
+            private List<Policial> delegados;
             
             private void carregaDelegados() {
-                Policial um = new Policial("Capitão nascimento");
-                Policial dois = new Policial("Souza");
-                Policial tes = new Policial("Joao");
-                
-                delegados.add(tes);
-                delegados.add(dois);
-                delegados.add(um);
-                
+                 delegados = new ControladoraBD("policia_db").buscarDelegados();
+                atualizaDelegados();                
             }
             
             private void atualizaDelegados() {
